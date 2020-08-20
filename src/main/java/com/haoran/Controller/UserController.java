@@ -40,7 +40,7 @@ public class UserController {
      * @param record: 
      * @return java.lang.Object: 
      * @author haoran.xiao
-     * @date 2020/8/20 11:26
+     * @date 2020/8/20 11:29
      */
     @ResponseBody
     @RequestMapping(value = "/insert", produces = {"application/json;charset=UTF-8"})
