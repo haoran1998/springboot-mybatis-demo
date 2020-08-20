@@ -18,6 +18,15 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    /**
+     * 
+     *
+     * @param pageNum: 
+     * @param pageSize: 
+     * @return com.github.pagehelper.PageInfo<com.haoran.model.User>: 
+     * @author haoran.xiao
+     * @date 2020/8/20 11:25
+     */
     @ResponseBody
     @RequestMapping(value = "/selectAllByPage/{pageNum}/{pageSize}", produces = {"application/json;charset=UTF-8"})
     public PageInfo<User> selectAllByPage(@PathVariable("pageNum") int pageNum, @PathVariable("pageSize") int pageSize){
