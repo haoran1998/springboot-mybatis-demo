@@ -25,6 +25,14 @@ public class UserController {
         return userService.selectAllByPage(pageNum,pageSize);
     }
 
+    /**
+     * 
+     *
+     * @param record: 
+     * @return java.lang.Object: 
+     * @author haoran.xiao
+     * @date 2020/8/20 11:26
+     */
     @ResponseBody
     @RequestMapping(value = "/insert", produces = {"application/json;charset=UTF-8"})
     public Object insert(@RequestBody User record){
