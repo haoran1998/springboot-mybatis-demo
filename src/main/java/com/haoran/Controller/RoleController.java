@@ -34,12 +34,28 @@ public class RoleController {
         return roleService.selectAllByPage(pageNum,pageSize);
     }
 
+    /**
+     * 
+     *
+     * @param record: 
+     * @return java.lang.Object: 
+     * @author haoran.xiao
+     * @date 2020/8/20 11:20
+     */
     @ResponseBody
     @RequestMapping(value = "/insert", produces = {"application/json;charset=UTF-8"})
     public Object insert(@RequestBody Role record){
         return roleService.insert(record);
     }
 
+    /**
+     * 
+     *
+     * @param record: 
+     * @return java.lang.Object: 
+     * @author haoran.xiao
+     * @date 2020/8/20 11:21
+     */
     @ResponseBody
     @RequestMapping(value = "/updateByPrimaryKey", produces = {"application/json;charset=UTF-8"})
     public Object updateByPrimaryKey(@RequestBody Role record){
