@@ -62,6 +62,14 @@ public class RoleController {
         return roleService.updateByPrimaryKey(record);
     }
 
+    /**
+     * 
+     *
+     * @param id: 
+     * @return java.lang.Object: 
+     * @author haoran.xiao
+     * @date 2020/8/20 11:22
+     */
     @ResponseBody
     @RequestMapping(value = "/deleteByPrimaryKey/{id}", produces = {"application/json;charset=UTF-8"})
     public Object deleteByPrimaryKey(@PathVariable("id") int id){
