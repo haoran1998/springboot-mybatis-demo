@@ -19,6 +19,15 @@ public class RoleController {
     @Autowired
     RoleService roleService;
 
+    /**
+     * 
+     *
+     * @param pageNum: 
+	 * @param pageSize:
+     * @return com.github.pagehelper.PageInfo<com.haoran.model.Role>: 
+     * @author haoran.xiao
+     * @date 2020/8/20 11:10
+     */
     @ResponseBody
     @RequestMapping(value = "/selectAllByPage/{pageNum}/{pageSize}", produces = {"application/json;charset=UTF-8"})
     public PageInfo<Role> selectAllByPage(@PathVariable("pageNum") int pageNum, @PathVariable("pageSize") int pageSize){
