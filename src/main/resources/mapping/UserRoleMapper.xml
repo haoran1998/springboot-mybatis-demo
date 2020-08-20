@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.haoran.mapper.UserRoleMapper">
+    <resultMap id="BaseResultMap" type="com.haoran.model.UserRole">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="userid" property="userid" jdbcType="INTEGER"/>
+        <result column="roleid" property="roleid" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--
+         id：resultMap的唯一标识
+         type:将查询出的数据放入指定的对象中
+         注意：手动映射需要指定数据表中的字段名与java中pojo类中的属性名称对应的关系
+       -->
+    <resultMap type="com.haoran.model.pojo.UserRolePojo" id="UserRolePojoResultMap">
+        <!--id标签指定主键字段对应关系
+            column:列，数据库中的字段名称
+            property：属性，java中pojo中的属性名称
+          -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <!-- result：指定 非主键对应的关系-->
+        <result column="userid" property="userid" jdbcType="INTEGER"/>
+        <result column="roleid" property="roleid" jdbcType="INTEGER"/>
+        <!-- association：表示进行关联查询单条记录
+    　　　　　　　这个标签指定单个对象的对应关系
+            property:表示关联查询的结果存储在cn.itcast.mybatis.po.Orders的user属性中
+            javaType：user属性中类型的路径
+        -->
+        <association property="user" javaType="com.haoran.model.User" autoMapping="true">
+            <id column="userid" property="userid" jdbcType="INTEGER"/>
+            <result column="username" property="username" jdbcType="VARCHAR"/>
+            <result column="password" property="password" jdbcType="VARCHAR"/>
+        </association>
+        <association property="role" javaType="com.haoran.model.Role" autoMapping="true">
+            <id column="roleid" property="roleid" jdbcType="INTEGER"/>
+            <result column="rolename" property="rolename" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, userid, roleid
+    </sql>
+
+    <sql id="Column_List">
+        id, userid, roleid,username,password,rolename
+    </sql>
+    <select id="selectAllByPage" resultMap="UserRolePojoResultMap">
+        select
+          id, user_role.userid as userid, user_role.roleid as roleid,username,password,rolename
+        from user_role join user on user_role.userid=user.userid
+        join role on user_role.roleid=role.roleid
+    </select>
+
+    <select id="selectByUserAndRole" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_role
+        where userid = #{userid,jdbcType=INTEGER} and roleid = #{roleid,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from user_role
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from user_role
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.haoran.model.UserRole">
+        insert into user_role (id, userid, roleid)
+        values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{roleid,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="com.haoran.model.UserRole">
+        insert into user_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userid != null">
+                userid,
+            </if>
+            <if test="roleid != null">
+                roleid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userid != null">
+                #{userid,jdbcType=INTEGER},
+            </if>
+            <if test="roleid != null">
+                #{roleid,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.haoran.model.UserRole">
+        update user_role
+        <set>
+            <if test="userid != null">
+                userid = #{userid,jdbcType=INTEGER},
+            </if>
+            <if test="roleid != null">
+                roleid = #{roleid,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.haoran.model.UserRole">
+        update user_role
+        set userid = #{userid,jdbcType=INTEGER},
+            roleid = #{roleid,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
