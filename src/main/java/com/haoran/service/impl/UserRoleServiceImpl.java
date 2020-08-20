@@ -10,40 +10,43 @@ import com.haoran.model.pojo.UserRolePojo;
 import com.haoran.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
+import javax.annotation.Resource;
 import java.util.List;
+
 @Service
 public class UserRoleServiceImpl implements UserRoleService {
-    @Autowired
+    @Resource
     UserMapper userMapper;
     @Autowired
     RoleMapper roleMapper;
     @Autowired
     UserRoleMapper userRoleMapper;
+
     @Override
     public PageInfo<UserRolePojo> selectAllByPage(int pageNum, int pageSize) {
         //将参数传给这个方法就可以实现物理分页了，非常简单。
         PageHelper.startPage(pageNum, pageSize);
         List<UserRolePojo> userRolePojos = userRoleMapper.selectAllByPage();
-        PageInfo<UserRolePojo> userRolePojoPageInfo = new PageInfo<>(userRolePojos);
-        return userRolePojoPageInfo;
+        return new PageInfo<>(userRolePojos);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public int insert(UserRole record) {
-        if(record==null) {
+        if (record == null) {
             return 0;
         }
-        if(record.getUserid()==null||record.getRoleid()==null){
+        if (record.getUserid() == null || record.getRoleid() == null) {
             return 0;
         }
-        if(userMapper.selectByPrimaryKey(record.getUserid())==null){
+        if (userMapper.selectByPrimaryKey(record.getUserid()) == null) {
             return 0;
         }
-        if(roleMapper.selectByPrimaryKey(record.getRoleid())==null){
+        if (roleMapper.selectByPrimaryKey(record.getRoleid()) == null) {
             return 0;
         }
-        if(userRoleMapper.selectByUserAndRole(record.getUserid(),record.getRoleid())!=null){
+        if (userRoleMapper.selectByUserAndRole(record.getUserid(), record.getRoleid()) != null) {
             return 0;
         }
         return userRoleMapper.insertSelective(record);
